@@ -78,4 +78,4 @@ def manipular_producto(id):
         return jsonify({"mensaje": "Producto eliminado exitosamente"})    
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
