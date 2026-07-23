@@ -1,4 +1,5 @@
 from db.connection import conectar
+import psycopg2.extras
 
 class Categoria:
     def __init__(self, nombre):
@@ -36,7 +37,7 @@ class Categoria:
         conn = conectar()
         if conn is not None:
             try:
-                cursor = conn.cursor()
+                cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
                 cursor.execute("SELECT * FROM categorias")
                 categorias = cursor.fetchall()
                 cursor.close()

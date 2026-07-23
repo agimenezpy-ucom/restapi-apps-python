@@ -9,16 +9,17 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 # Manejar solicitudes relacionadas con categorías
-@app.route('/categorias', methods=['GET', 'POST'])
+@app.get('/categorias')
+def get_categorias():
+    categorias = Categoria.obtener_todas()
+    return jsonify(categorias)
+
+@app.post('/categorias')
 def manejar_categorias():
-    if request.method == 'GET':
-        categorias = Categoria.obtener_todas()
-        return jsonify(categorias)
-    elif request.method == 'POST':
-        datos = request.json
-        nueva_categoria = Categoria(nombre=datos['nombre'])
-        nueva_categoria.guardar()
-        return jsonify({"mensaje": "Categoria creada exitosamente", "categoria": vars(nueva_categoria)}), 201
+    datos = request.json
+    nueva_categoria = Categoria(nombre=datos['nombre'])
+    nueva_categoria.guardar()
+    return jsonify({"mensaje": "Categoria creada exitosamente", "categoria": vars(nueva_categoria)}), 201
     
 @app.route('/categorias/<int:id>', methods=['PUT', 'DELETE'])
 def manipular_categoria(id):
